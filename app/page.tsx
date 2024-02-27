@@ -1,25 +1,25 @@
 "use client"
 
-import prisma from "@/lib/prisma";
-
-
 export default function Home() {
 
 
   async function testCreate()  {
     console.log("create--------------");
-        await prisma.consumerX.create({
-            data: {
-              title : "张三",
-              content : "CEO"
-            }
-        });
+      //注意使用await
+    const res = await fetch("/api/create-c", {
+      method: "GET"
+    });
+    if(res.ok){
+    //注意使用await
+      const data = await res.json();
+      //这里踩坑了： 使用的data.toString报错了。使用JSON.stringify 解析json 才行
+      console.log("xxxxxxxxxxxxx" + JSON.stringify(data) ) 
+    }
+
   }
 
  async function testRead()  {
     console.log("read--------------");
-    const data =  await prisma.consumerX.findMany();
-    console.log(data);
   }
 
   return (
